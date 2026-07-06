@@ -1,0 +1,25 @@
+/vendor/
+/node_modules/
+/public/build/
+
+.env
+.env.backup
+.env.production
+
+/storage/*.key
+/storage/logs/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+
+bootstrap/cache/
+
+.idea/
+.vscode/
+
+# SQLite database
+#/database/database.sqlite
+
+# OS files
+.DS_Store
+Thumbs.db
