@@ -4,6 +4,23 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
+    <!--HOSPITAL CODE -->
+        <div>
+    <x-input-label for="hospital" :value="__('Hospital')" />
+
+    <select id="hospital" name="hospital"
+        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        required>
+        <option value="">-- Select Hospital --</option>
+        <option value="NHR001">Nairobi Health Referral Hospital (NHR001)</option>
+        <option value="KGH002">Kenyatta General Hospital (KGH002)</option>
+        <option value="MCH003">MediCare Community Hospital (MCH003)</option>
+        <option value="SWH004">Sunrise Wellness Hospital (SWH004)</option>
+        <option value="CCH005">City Care Hospital (CCH005)</option>
+    </select>
+
+    <x-input-error :messages="$errors->get('hospital')" class="mt-2" />
+</div>
 
         <!-- Email Address -->
         <div>
