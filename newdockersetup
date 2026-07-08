@@ -1,0 +1,32 @@
+# add  this   to .env  file 
+DB_HOST=mysql-server
+DB_DATABASE=laraveldb 
+DB_USERNAME=myuser
+DB_PASSWORD=mypassword
+SESSION_DRIVER=file
+CACHE_DRIVER=file
+
+# Build and start all services
+docker-compose up -d --build
+#install  php dependancies 
+docker exec -it php-laravel composer install
+# generate Application key 
+
+docker exec -it php-laravel php artisan key:generate
+# permission 
+docker exec -it php-laravel chown -R www-data:www-data storage bootstrap/cache
+#Data migration  if need be 
+docker exec -it php-laravel php artisan migrate
+#clear cache 
+
+docker exec -it php-laravel php artisan config:clear
+docker exec -it php-laravel php artisan cache:clear
+docker exec -it php-laravel php artisan view:clear
+
+# confirm  all is ok 
+
+# Check containers are running
+docker-compose ps
+
+# Test database connection
+docker exec -it php-laravel php artisan tinker --execute="echo DB::connection()->getDatabaseName();"
