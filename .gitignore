@@ -1,25 +1,15 @@
 /vendor/
 /node_modules/
-/public/build/
-
-.env
+/.env
 .env.backup
 .env.production
-
-/storage/*.key
-/storage/logs/
-/storage/framework/cache/
-/storage/framework/sessions/
-/storage/framework/views/
-
-bootstrap/cache/
-
-.idea/
-.vscode/
-
-# SQLite database
-#/database/database.sqlite
-
-# OS files
-.DS_Store
-Thumbs.db
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+/mysql_data/
