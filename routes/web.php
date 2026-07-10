@@ -8,6 +8,10 @@ Route::get('/', function () {
 });
 
 
+Route::get('/carregister', function () {
+    return view('carregister');
+});
+
 Route::get('/Testbladefile', function () {
     try {
         DB::connection()->getPdo();
@@ -31,6 +35,9 @@ Route::get('/Testbladefile', function () {
         ]);
     }
 });
+
+
+
 
 
 
