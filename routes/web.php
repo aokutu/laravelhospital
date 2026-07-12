@@ -8,9 +8,19 @@ Route::get('/', function () {
 });
 
 
+use Illuminate\Http\Request;
+
+Route::post('/processcar', function (Request $request ) {
+
+    print $request->client_name;
+    return "PROCESS  CAR ";
+});
+
+
 Route::get('/carregister', function () {
     return view('carregister');
 });
+
 
 Route::get('/Testbladefile', function () {
     try {

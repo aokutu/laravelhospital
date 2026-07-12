@@ -23,7 +23,7 @@
         </div>
 
 
-        <form action="#" method="POST" class="space-y-10">
+        <form   action="{{ url('/processcar') }}"   method="POST" class="space-y-10">
 
             @csrf
 
