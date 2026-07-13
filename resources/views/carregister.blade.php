@@ -66,15 +66,15 @@
 
             <div>
                 <label 
-                    for="number_plate"
+                    for="car_number"
                     class="block text-lg font-semibold text-gray-700 mb-2">
                     Car Number Plate
                 </label>
 
                 <input
                     type="text"
-                    name="number_plate"
-                    id="number_plate"
+                    name="car_number"
+                    id="car_number"
                     placeholder="Enter car number plate"
                     required
                     class="w-full h-14 px-4 text-lg rounded-xl border-gray-300

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CarController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,16 +12,25 @@ Route::get('/', function () {
 
 use Illuminate\Http\Request;
 
-Route::post('/processcar', function (Request $request ) {
 
-    print $request->client_name;
-    return "PROCESS  CAR ";
-});
+Route::get('/cars', [CarController::class, 'index']);
+
+/*Route::post('/processcar', function (Request $request ) {
+
+    //print $request->client_name;
+   // return "PROCESS  CAR ";
+    return view('drivermap');
+}); */
+
+Route::post('/processcar', [CarController::class, 'store']);
 
 
 Route::get('/carregister', function () {
     return view('carregister');
 });
+
+
+
 
 
 Route::get('/Testbladefile', function () {
