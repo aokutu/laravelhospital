@@ -32,7 +32,13 @@ Route::get('/carregister', function () {
 
 
 
+Route::get('/live', function () {
+    return view('live');
+});
 
+Route::get('/crowdworkers', function () {
+    return view('crowdworkers');
+});
 
 
 
