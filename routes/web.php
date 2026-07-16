@@ -22,12 +22,15 @@ Route::get('/cars', [CarController::class, 'index']);
     return view('drivermap');
 }); */
 
-Route::post('/processcar', [CarController::class, 'store']);
+Route::post('/processcar', [CarController::class, 'store'])
+    ->middleware('throttle:10,1');
 
 
 Route::get('/carregister', function () {
     return view('carregister');
 });
+
+
 
 
 
