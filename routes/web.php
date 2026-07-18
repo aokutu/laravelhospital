@@ -38,7 +38,7 @@ Route::get('/live', function () {
 
 Route::get('/crowdworkers', function () {
     return view('crowdworkers');
-});
+})->middleware('auth'); 
 
 
 
