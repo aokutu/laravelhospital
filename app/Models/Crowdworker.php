@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Crowdworker extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+        'contact',
+        'email',
+        'street',
+    ];
 }
