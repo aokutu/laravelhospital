@@ -62,6 +62,19 @@ public function saveCrowdworker()
         $this->resetErrorBag();
     }
 
+
+
+    public function edit($id)
+{
+    dd("Edit customer ID: " . $id);
+}
+
+public function delete($id)
+{
+    dd("Delete customer ID: " . $id);
+}
+
+
     public function render()
     {
         return view('livewire.crowdworker');
