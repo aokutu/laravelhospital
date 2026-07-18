@@ -3,6 +3,7 @@
 
         <!-- LEFT SIDE - FORM (30%) -->
         <div class="w-3/10 bg-white border-r shadow-lg p-6" style="width:30%;">
+            
 
             <h2 class="text-2xl font-bold mb-6">
                 Customer Registration
@@ -69,7 +70,8 @@
             <h2 class="text-2xl font-bold mb-6">
                 Customer List 
                 <span class="text-sm font-normal text-gray-500">
-                    (Total: {{ count($crowdworkers) }})
+                   
+                    (Total: {{ $crowdworkers->total() }})
                 </span>
             </h2>
 
@@ -84,8 +86,10 @@
                 ⏳ Loading...
             </span>
 
-            <!-- Table with auto-refresh every 5 seconds -->
-            <div wire:poll.5s>
+            <!-- Table with auto-refresh every 5 seconds >
+            <div wire:poll.5s > 
+                -->
+            <div > 
                 <table class="w-full border border-gray-300 rounded-lg overflow-hidden">
                     <thead class="bg-blue-700 text-white">
                         <tr>
@@ -100,7 +104,7 @@
                     <tbody>
                         @forelse($crowdworkers as $index => $crowdworker)
                             <tr class="{{ $index % 2 == 0 ? 'bg-white' : 'bg-gray-100' }} hover:bg-blue-100 transition-colors duration-200">
-                                <td class="px-6 py-4">{{ $loop->iteration }}</td>
+                                <td class="px-6 py-4"> {{ $crowdworkers->firstItem() + $index }}</td>
                                 <td class="px-6 py-4">{{ $crowdworker['name'] }}</td>
                                 <td class="px-6 py-4">{{ $crowdworker['contact'] }}</td>
                                 <td class="px-6 py-4">{{ $crowdworker['email'] }}</td>
@@ -111,14 +115,22 @@
 </td> </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
                                     No crowdworkers found. Add your first crowdworker!
                                 </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
+
+               
+   
+
             </div>
+
+            <div class="mt-4">
+    {{ $crowdworkers->links() }}
+</div>
 
         </div>
 
