@@ -94,6 +94,7 @@
                             <th class="px-6 py-4 text-left">Contact</th>
                             <th class="px-6 py-4 text-left">Email</th>
                             <th class="px-6 py-4 text-left">Street</th>
+                             <th class="px-6 py-4 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,7 +105,10 @@
                                 <td class="px-6 py-4">{{ $crowdworker['contact'] }}</td>
                                 <td class="px-6 py-4">{{ $crowdworker['email'] }}</td>
                                 <td class="px-6 py-4">{{ $crowdworker['street'] }}</td>
-                            </tr>
+                                <td class="px-6 py-4 text-center">
+                    <button wire:click="edit({{ $crowdworker['id'] }})" class="text-blue-600 hover:text-blue-800 mr-3" title="Edit">  ✏️ </button>
+                    <button wire:click="delete({{ $crowdworker['id'] }})" wire:confirm="Are you sure you want to delete this customer?" class="text-red-600 hover:text-red-800"  title="Delete">  🗑️ </button>
+</td> </tr>
                         @empty
                             <tr>
                                 <td colspan="5" class="px-6 py-4 text-center text-gray-500">
