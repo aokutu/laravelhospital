@@ -1,5 +1,14 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleController;
+
+// The route that sends the user to Google
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+
+// The route that Google redirects back to after a successful login
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarController;
 use Illuminate\Support\Facades\Route;

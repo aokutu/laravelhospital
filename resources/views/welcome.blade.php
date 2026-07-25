@@ -19,7 +19,22 @@
             </style>
         @endif
     </head>
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
+    <body 
+    
+    
+    @auth
+    <div style="background: #d4edda; color: #155724; padding: 15px; margin: 20px; border-radius: 5px;">
+        🎉 Welcome back, <strong>{{ Auth::user()->name }}</strong>! You are securely logged in via Google.
+    </div>
+@else
+    <div style="background: #f8d7da; color: #721c24; padding: 15px; margin: 20px; border-radius: 5px;">
+        You are currently a guest. <a href="{{ route('auth.google') }}">Login with Google</a>
+    </div>
+@endauth
+
+    
+    
+    class="font-sans antialiased dark:bg-black dark:text-white/50">
         <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
             <img id="background" class="absolute -left-20 top-0 max-w-[877px]" src="https://laravel.com/assets/img/welcome/background.svg" alt="Laravel background" />
             <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
