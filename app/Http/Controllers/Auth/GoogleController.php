@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Exception;
 
 class GoogleController extends Controller
@@ -27,39 +26,34 @@ class GoogleController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
             
-            // SECURITY GATE: Only allow your specific Gmail account to access the app
-            if ($googleUser->email !== 'muleli.haddassah@gmail.com') {
-                abort(403, 'Unauthorized access.');
-            }
+            // 🔍 STEP 1: Search your database users table for this incoming email address
+            $user = User::where('email', $googleUser->email)->first();
             
-            // 1. Check if a user with this specific Google ID already exists
-            $user = User::where('google_id', $googleUser->id)->first();
-            
+            // 🔒 STEP 2: REGULATION GATE
+            // If the email does NOT exist in your database, reject them instantly!
             if (!$user) {
-                // 2. If not, check if a user with this email address already exists
-                $user = User::where('email', $googleUser->email)->first();
-                
-                if ($user) {
-                    // Email matches an existing account, link the Google ID to it
-                    $user->update(['google_id' => $googleUser->id]);
-                } else {
-                    // 3. Brand new user! Create a new account in your database
-                    $user = User::create([
-                        'name' => $googleUser->name,
-                        'email' => $googleUser->email,
-                        'google_id' => $googleUser->id,
-                        'password' => encrypt(Str::random(24)), // Dummy password for security
-                    ]);
-                }
+                abort(403, 'Access Denied: This email address is not registered in our system.');
+            }
+
+            // 📝 STEP 3: If they are registered, link their unique Google ID if it isn't set yet
+            if (!$user->google_id) {
+                $user->update([
+                    'google_id' => $googleUser->id,
+                ]);
             }
             
-            // 4. Log the user into the application session
+            // 🔓 STEP 4: Log them into the session securely
             Auth::login($user);
             
-            // 5. Send them to your home page or dashboard route
-            return redirect('/');
+            // 5. Send them straight to your secure dashboard route
+            return redirect('/dashboard');
 
         } catch (Exception $e) {
+            // Ensure our 403 security abort isn't caught and hidden by the generic catch block
+            if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException && $e->getStatusCode() == 403) {
+                throw $e;
+            }
+            
             return redirect('/')->with('error', 'Authentication failed.');
         }
     }
