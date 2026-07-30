@@ -1,4 +1,4 @@
-login<?php
+<?php
 
 use App\Http\Controllers\Auth\GoogleController;
 
