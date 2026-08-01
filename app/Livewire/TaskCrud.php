@@ -5,8 +5,12 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\User;
 
+use Livewire\WithPagination;
+
 class TaskCrud extends Component
 {
+
+     use WithPagination;
     // 🔴 These public properties must be defined here so the Blade file can see them!
     public $search = '';
     public $name = '';
@@ -24,7 +28,7 @@ class TaskCrud extends Component
         $users = User::where('name', 'like', '%' . $this->search . '%')
             ->orWhere('email', 'like', '%' . $this->search . '%')
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(5); 
 
         return view('livewire.task-crud', [
             'users' => $users
