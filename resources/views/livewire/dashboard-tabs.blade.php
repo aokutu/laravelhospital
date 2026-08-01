@@ -14,7 +14,7 @@
 
         <button wire:click="switchTab('features')" 
             class="w-full text-left px-4 py-3 rounded-md transition-all flex items-center gap-3 font-medium {{ $activeTab === 'features' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800' }}">
-            <span>🛠️</span> Livewire Modules
+            <span>🛠️</span> Crud_Livewire
         </button>
 
         <button wire:click="switchTab('settings')" 
@@ -38,6 +38,10 @@
                 <h2 class="text-2xl font-bold text-gray-800">Livewire Component Sandbox</h2>
                 <p class="text-gray-500 mt-1">Interactive states, components, and real-time operations.</p>
              
+                <div class="mt-6">
+    <livewire:task-crud />
+</div>
+
 
                 <div class="mt-6 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
     <h3 class="text-lg font-semibold text-green-600">Hello from Localhost Sandbox!</h3>
