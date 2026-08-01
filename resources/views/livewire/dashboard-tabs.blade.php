@@ -37,10 +37,16 @@
             <div class="flex flex-col h-full">
                 <h2 class="text-2xl font-bold text-gray-800">Livewire Component Sandbox</h2>
                 <p class="text-gray-500 mt-1">Interactive states, components, and real-time operations.</p>
-                <div class="mt-6 border-2 border-dashed border-gray-200 rounded-lg flex-1 flex items-center justify-center text-gray-400 bg-gray-50">
-                    Feature Demos / Dynamic Lists / Livewire Forms Go Here
-                </div>
-            </div>
+             
+
+                <div class="mt-6 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+    <h3 class="text-lg font-semibold text-green-600">Hello from Localhost Sandbox!</h3>
+    <p class="text-sm text-gray-500 mb-4">This change was written locally in VS Code.</p>
+    <livewire:demo-counter />
+</div>
+
+
+
         @elseif($activeTab === 'settings')
             <div class="flex flex-col h-full">
                 <h2 class="text-2xl font-bold text-gray-800">Environment Preferences</h2>
