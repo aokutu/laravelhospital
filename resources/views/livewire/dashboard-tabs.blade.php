@@ -35,19 +35,27 @@
             </div>
         @elseif($activeTab === 'features')
             <div class="flex flex-col h-full">
-                <h2 class="text-2xl font-bold text-gray-800">Livewire Component Sandbox</h2>
-                <p class="text-gray-500 mt-1">Interactive states, components, and real-time operations.</p>
+                <h2 class="text-2xl font-bold text-gray-800"> <strong>💡 Laravel CRUD & PAGINATION Implementation Proof:</strong> </h2>
+                        <div class="mb-6 p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded-r-lg text-sm text-indigo-900">
+   This module demonstrates real-time asynchronous CRUD operations using <br> 
+    Laravel Livewire. It features automated server-side request validation, stateless query pagination, <br>
+    and reactive UI component morphine via background AJAX requests—completely eliminating page reloads.
+</div>
              
                 <div class="mt-6">
     <livewire:task-crud />
 </div>
 
-
-           <div class="mb-6 p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded-r-lg text-sm text-indigo-900">
-    <strong>💡 Laravel Implementation Proof:</strong> This module demonstrates real-time asynchronous CRUD operations using <br> 
-    Laravel Livewire. It features automated server-side request validation, stateless query pagination, <br>
-    and reactive UI component morphine via background AJAX requests—completely eliminating page reloads.
+                <div class="mt-6">
+                     <!--livewire:task-crud -->
+    <livewire:lead-manager />
 </div>
+</div>
+
+
+
+
+   
 
 
 
