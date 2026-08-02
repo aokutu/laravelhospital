@@ -13,5 +13,5 @@ yarn-error.log
 /.idea
 /.vscode
 /mysql_data/
-/public/hot
-/public/build
+# 🛑 REMOVED /public/hot and /public/build from here
+
