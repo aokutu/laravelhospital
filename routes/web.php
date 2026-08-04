@@ -14,6 +14,11 @@ use App\Http\Controllers\CarController;
 |--------------------------------------------------------------------------
 */
 
+
+// Intercept any attempt to go to /login and bounce them to the homepage
+Route::redirect('/login', '/');
+
+
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])
     ->name('auth.google');
 
