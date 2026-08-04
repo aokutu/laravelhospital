@@ -16,7 +16,7 @@
         <!-- Wizard Form Button -->
         <button wire:click="switchTab('wizard')" 
             class="w-full text-left px-4 py-3 rounded-md transition-all flex items-center gap-3 font-medium {{ $activeTab === 'wizard' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800' }}">
-            <span>📝</span> Wizard Form
+            <span></span> Wizard Form :> 📑 PDF
         </button>
 
         <!-- Crud Livewire Button -->

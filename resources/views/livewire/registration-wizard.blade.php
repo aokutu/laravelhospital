@@ -64,8 +64,19 @@
                 <p><strong>Company:</strong> {{ $company_name }} ({{ $business_type }})</p>
             </div>
             <div class="flex items-start gap-2">
-                <input type="checkbox" wire:model.blur="terms_accepted" id="terms" class="mt-1">
-                <label for="terms" class="text-xs text-gray-600">I confirm that all summarized parameters are correct.</label>
+                <!-- Ensure wire:model binds perfectly to your class property variable -->
+<input type="checkbox" wire:model="terms_accepted" id="terms">
+<label for="terms">I confirm that all summarized parameters are correct.</label>
+
+<!-- Optional: Drop this error message block right underneath it to catch failures -->
+@error('terms_accepted') 
+    <span style="color: red; font-size: 12px; display: block;">
+        You must accept the confirmation checkbox to submit.
+    </span> 
+@enderror
+ 
+
+
             </div>
             @error('terms_accepted') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
         </div>
@@ -82,7 +93,17 @@
         @if($currentStep < $totalSteps)
             <button type="button" wire:click="nextStep" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md text-sm transition shadow-sm">Next</button>
         @else
-            <button type="button" wire:click="submitForm" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-md text-sm transition shadow-sm">Submit Setup</button>
+            <!-- 🚨 THE FIRST LINE OF THE FILE MUST BE A OPENING DIV -->
+<div>
+
+    <!-- Your entire multi-step form wizard layout, steps, and buttons live here -->
+    ...
+    <button wire:click="submitForm" class="...">Submit Status</button>
+    ...
+
+<!-- 🚨 THE ABSOLUTE LAST LINE OF THE FILE MUST BE THE CLOSING DIV -->
+</div>
+
         @endif
     </div>
 </div>
