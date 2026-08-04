@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CarController;
-
+use Illuminate\Support\Facades\Storage;
 /*
 |--------------------------------------------------------------------------
 | Google Authentication Routes
@@ -17,6 +17,18 @@ use App\Http\Controllers\CarController;
 
 // Intercept any attempt to go to /login and bounce them to the homepage
 Route::redirect('/login', '/'); #REDIRECT
+
+// This route forces the browser to treat the PDF asset as a local download attachment
+Route::get('/secure-download/{filename}', function ($filename) {
+    $filePath = 'tmp/' . $filename;
+
+    if (!Storage::disk('public')->exists($filePath)) {
+        abort(404, 'File path tracking index dropped.');
+    }
+
+    // 🔥 THE FIX: 'download()' automatically forces a strict download attachment header popup!
+    return Storage::disk('public')->download($filePath);
+})->name('pdf.download');
 
 
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])
