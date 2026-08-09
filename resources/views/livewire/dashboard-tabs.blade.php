@@ -1,3 +1,5 @@
+
+
 <div class="flex flex-col md:flex-row gap-6 h-[calc(100vh-120px)] w-full">
     
     <!-- 🚀 Left Sidebar: Feature Navigation -->
@@ -32,6 +34,17 @@
         </button>
 
 
+
+           <button wire:click="switchTab('session')" 
+            class="w-full text-left px-4 py-3 rounded-md transition-all flex items-center gap-3 font-medium {{ $activeTab === 'session' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800' }}">
+            <span>🛠️</span> SESSION
+        </button>
+
+
+
+
+
+
         <!-- App Config Button -->
         <button wire:click="switchTab('settings')" 
             class="w-full text-left px-4 py-3 rounded-md transition-all flex items-center gap-3 font-medium {{ $activeTab === 'settings' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800' }}">
@@ -57,6 +70,15 @@
             <div class="flex flex-col h-full">
                 <livewire:registration-wizard />
             </div>
+
+
+     @elseif($activeTab === 'session')
+    <div class="flex flex-col h-full w-full">
+        <!-- The layout just renders the component; the form file handles everything else -->
+        <livewire:session-form />
+    </div>
+
+
 
 
          @elseif($activeTab === 'uploads')
