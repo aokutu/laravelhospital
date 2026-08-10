@@ -5,7 +5,7 @@
     <!-- 🚀 Left Sidebar: Feature Navigation -->
     <aside class="w-full md:w-64 bg-slate-900 text-white rounded-lg p-4 flex flex-col gap-2 shadow-md h-full">
         <div class="p-3 border-b border-slate-700 mb-2">
-            <h1 class="text-xl font-bold tracking-wide">⚡ Laravel Lab</h1>
+            <h1 class="text-xl font-bold tracking-wide">⚡ Laravel Lab > </h1>
             <p class="text-xs text-slate-400 mt-1">Feature Showcase Portal</p>
         </div>
 
