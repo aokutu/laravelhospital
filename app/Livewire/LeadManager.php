@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Lead;
+use App\Events\LeadCreated;
+
 
 class LeadManager extends Component
 {
@@ -42,17 +44,20 @@ class LeadManager extends Component
         // 3. RUN VALIDATION ON SUBMIT
         $this->validate();
 
-        Lead::updateOrCreate(
-            ['id' => $this->leadId],
-            [
-                'first_name'  => $this->first_name,
-                'second_name' => $this->second_name,
-                'email'       => $this->email,
-                'contact'     => $this->contact,
-                'date'        => $this->date,
-                'location'    => $this->location,
-            ]
-        );
+     $lead = Lead::updateOrCreate(
+    ['id' => $this->leadId],
+    [
+        'first_name'  => $this->first_name,
+        'second_name' => $this->second_name,
+        'email'       => $this->email,
+        'contact'     => $this->contact,
+        'date'        => $this->date,
+        'location'    => $this->location,
+    ]
+);
+
+
+LeadCreated::dispatch($lead);
 
         session()->flash('message', $this->isEditMode ? 'Record updated successfully!' : 'Record added successfully!');
         
