@@ -27,7 +27,7 @@ class LeadManager extends Component
     protected $rules = [
         'first_name' => 'required|string|min:2',
         'second_name' => 'required|string|min:2',
-        'email' => 'required|email', // Removed unique constraint to keep setup simple, add back if needed
+        'email' =>  'required|email|unique:leads,email',
         'contact' => 'required|string|min:10',
         'date' => 'required|date',
         'location' => 'required|string',
