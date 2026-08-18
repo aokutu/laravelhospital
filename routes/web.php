@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 //MPESA 
 
-use FelixMuhoro\Mpesa\Facades\Mpesa;
+use felixMuhoro\Mpesa\Facades\Mpesa;
 
 Route::get('/test-stk', function () {
     $response = Mpesa::stkPush(
