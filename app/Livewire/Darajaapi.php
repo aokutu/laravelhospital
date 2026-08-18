@@ -58,4 +58,25 @@ class Darajaapi extends Component
     {
         return view('livewire.darajaapi');
     }
+
+public function simulateIncomingPayment()
+{
+    // Array lists to make your demo random and exciting
+    $firstNames = ['John', 'Mary', 'Kevin', 'Grace', 'Brian', 'Amina'];
+    $lastNames = ['Mwangi', 'Onyango', 'Kamau', 'Otieno', 'Wanjiku', 'Ali'];
+    $references = ['SHOP-99', 'TILL-04', 'INVOICE-A', 'ORDER-502'];
+
+    // Generate random values for the transaction record block
+    \App\Models\MpesaTransaction::create([
+        'mpesa_code'  => 'SGH' . rand(10000, 99999),
+        'amount'      => rand(150, 4500) . '.00',
+        'phone'       => '2547' . rand(10000000, 99999999),
+        'first_name'  => $firstNames[array_rand($firstNames)],
+        'last_name'   => $lastNames[array_rand($lastNames)],
+        'bill_ref'    => $references[array_rand($references)],
+    ]);
+}
+
+
+
 }

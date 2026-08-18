@@ -22,4 +22,15 @@
             {{ $message }}
         </div>
     @endif
+
+<!--  DEV DEMO GATEWAY SIMULATOR TOOL -->
+<div class="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+    <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-2">Dev Simulation Console</p>
+    <button wire:click="simulateIncomingPayment" 
+            class="w-full py-1.5 px-3 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded text-xs font-mono transition-colors border border-zinc-200 dark:border-zinc-700 flex justify-between items-center">
+        <span>⚡ Mock Customer Checkout</span>
+        <span class="text-[10px] opacity-60">Simulate C2B</span>
+    </button>
+</div>
+
 </div>
