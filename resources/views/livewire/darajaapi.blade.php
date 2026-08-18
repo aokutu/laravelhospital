@@ -1,5 +1,5 @@
 <div class="p-6 max-w-sm bg-white dark:bg-zinc-900 rounded-lg shadow border border-zinc-200 dark:border-zinc-800">
-    <h2 class="text-lg font-bold mb-4 text-zinc-950 dark:text-zinc-50">Livewire Phone Capture</h2>
+    <h2 class="text-lg font-bold mb-4 text-zinc-950 dark:text-zinc-50">DARAJA STK PUSH </h2>
 
     <form wire:submit.prevent="processForm" class="space-y-4">
         <div>
