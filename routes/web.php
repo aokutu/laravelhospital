@@ -31,6 +31,24 @@ Route::get('/test-stk', function () {
     return response()->json(['status' => 'rejected', 'response' => $response]);
 });
 
+Route::post('/test-stk', function () {
+    $response = Mpesa::stkPush(
+        phone: '0711487030',
+        amount: 1,
+        reference: 'TEST-001',
+        description: 'Test payment'
+    );
+
+    if ($response->accepted()) {
+        return response()->json([
+            'status' => 'accepted',
+            'checkout_request_id' => $response->checkoutRequestId,
+        ]);
+    }
+
+    return response()->json(['status' => 'rejected', 'response' => $response]);
+});
+
 
 
 /*

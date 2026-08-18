@@ -41,6 +41,12 @@
         </button>
 
 
+           <button wire:click="switchTab('darajaapi')" 
+            class="w-full text-left px-4 py-3 rounded-md transition-all flex items-center gap-3 font-medium {{ $activeTab === 'session' ? 'bg-blue-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800' }}">
+            <span>🛠️</span> DARAJA APIS 
+        </button>
+
+
 
 
 
@@ -77,6 +83,18 @@
         <!-- The layout just renders the component; the form file handles everything else -->
         <livewire:session-form />
     </div>
+
+
+     @elseif($activeTab === 'darajaapi')
+    <div class="flex flex-col h-full w-full">
+        DARAJA  API 
+        <!-- The layout just renders the component; the form file handles everything else -->
+        <livewire:darajaapi />
+    </div>
+
+
+
+
 
 
 
