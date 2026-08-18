@@ -85,12 +85,21 @@
     </div>
 
 
-     @elseif($activeTab === 'darajaapi')
-    <div class="flex flex-col h-full w-full">
-        DARAJA  API 
-        <!-- The layout just renders the component; the form file handles everything else -->
-        <livewire:darajaapi />
+  @elseif($activeTab === 'darajaapi')
+    <div class="flex flex-col md:flex-row gap-6 p-6 h-full w-full items-start">
+        
+        <!-- Left Side: Your Phone Input Prompt Form Box -->
+        <div class="w-full md:w-1/2">
+            <livewire:darajaapi />
+        </div>
+
+        <!-- Right Side: The Attendant's Live Real-Time Feed Monitor -->
+        <div class="w-full md:w-1/2">
+            <livewire:mpesa-feed />
+        </div>
+
     </div>
+@endif
 
 
 
@@ -99,7 +108,8 @@
 
 
 
-         @elseif($activeTab === 'uploads')
+
+         @if($activeTab === 'uploads')
             <div class="flex flex-col h-full">
                 UPLOADS
                  <div class="flex flex-col h-full p-6 bg-white rounded-lg shadow-sm">
