@@ -16,3 +16,4 @@ yarn-error.log
 # 🛑 REMOVED /public/hot and /public/build from here
 
 .env
+public/hot
