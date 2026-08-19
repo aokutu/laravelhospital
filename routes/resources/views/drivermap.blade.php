@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏙️ PARK PLACE 🏙️</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<style>
+html, body { height: 100%; margin:0; padding:0; }
+#map {
+  width: 95vw;
+  height: 95vh;
+  margin: 2.5vh 2.5vw;
+  border-radius: 12px;
+}
+#countdown {
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #3b82f6;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  z-index: 10000;
+}
+</style>
+</head>
+<body class="bg-gray-100">
+
+<div class="flex flex-col items-center">
+  <h3 class="text-center text-green-600 text-2xl font-bold mt-2">🏙️ PARK PLACE 🏙️</h3>
+
+  <button id="getLocationBtn" class="btn btn-success mt-2 mb-2 w-4/5 max-w-md">📍 Use My Location</button>
+
+  <div id="map"></div>
+
+  <div id="infoBox" class="fixed top-5 right-5 bg-white/95 p-4 rounded-xl shadow-2xl z-[9999] w-72">
+    <h4 class="font-bold text-xl mb-2 text-blue-600">📌 Map Info</h4>
+    <p id="infoContent" class="text-sm text-gray-700">
+      Click on the map to see coordinates here.
+    </p>
+    <div class="flex gap-2 mt-2">
+      <input type="text" id="lattitude" class="form-control flex-1" placeholder="Latitude">
+      <input type="text" id="longitude" class="form-control flex-1" placeholder="Longitude">
+    </div>
+
+     <div class="flex items-center space-x-4">
+     <label class="flex items-center">🅿️🚗 Got Park</label>
+    
+  <label class="flex items-center">
+    <input type="radio" name="option" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 rounded-full">
+    <span class="ml-2 text-sm font-medium text-gray-900">YES</span>
+  </label>
+  <label class="flex items-center">
+    <input type="radio" name="option" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 rounded-full">
+    <span class="ml-2 text-sm font-medium text-gray-900">NO</span>
+  </label>
+</div>
+
+  </div>
+
+  <!-- Countdown -->
+  <div id="countdown">5</div>
+</div>
+
+<script src="/static/js/mapwebsock.js"></script>
+<script>
+let map = L.map('map').setView([-0.06575, 34.77402], 15);
+let userPos = null;
+let userMarker = null;
+let routeLine = null;
+let lastClicks = [];
+let markerLayers = [];
+let countdownValue = 5;
+let parkingData = [];                    
+const countdownDiv = document.getElementById("countdown");
+
+let isFirstLoad = true;   // ← This controls whether to auto-fit
+
+// =======================
+// LOAD DATA FROM JSON
+// =======================
+async function loadParkingData() {
+  try {
+    console.log("🔄 Fetching fresh parking data...");
+
+    const response = await fetch('/static/parkingData.json?' + Date.now());
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    parkingData = await response.json();
+
+    console.log('✅ Parking data loaded successfully!', parkingData.length, 'spots');
+    console.table(parkingData);
+
+    loadMarkers(parkingData);
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to load parkingData.json:', error);
+    return false;
+  }
+}
+
+// =======================
+// TILE LAYER
+// =======================
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// =======================
+// LOAD MARKERS (Only fit on first load)
+// =======================
+
+
+function loadMarkers(data) {
+  console.log("🟢 Updating markers...");
+
+  // Remove old markers only
+  markerLayers.forEach(m => map.removeLayer(m));
+  markerLayers = [];
+
+  if (!data || data.length === 0) return;
+
+  const bounds = L.latLngBounds();
+
+  data.forEach((p, index) => {
+    if (typeof p.lat !== 'number' || typeof p.lng !== 'number') return;
+
+    const marker = L.circleMarker([p.lat, p.lng], {
+      radius: 12,
+      fillColor: p.color || "#3388ff",
+      color: "#ffffff",
+      weight: 3,
+      fillOpacity: 0.95
+    }).addTo(map);
+
+    // Build image HTML if image URL exists
+    let imageHTML = '';
+    if (p.image) {
+      imageHTML = `<img src="${p.image}" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 8px; display: block;" alt="${p.title || 'Parking image'}">`;
+    }
+
+    const contentHTML = p.content ? p.content.replace(/\n/g, "<br>") : "";
+    marker.bindPopup(`
+      <div style="text-align:center; min-width:200px;">
+        ${imageHTML}
+        <b style="color:${p.color || '#3388ff'}; font-size:1.1em;">${p.title || 'Parking Spot'}</b><br>
+        ${contentHTML}
+      </div>
+    `);
+
+    markerLayers.push(marker);
+    bounds.extend([p.lat, p.lng]);
+
+    console.log(`📍 Added marker ${index+1}: ${p.title}`);
+  });
+
+  // Auto-fit ONLY on the very first load
+  if (isFirstLoad && bounds.isValid()) {
+    console.log("🔄 First load → Fitting bounds to show all markers");
+    setTimeout(() => {
+      map.fitBounds(bounds, { 
+        padding: [60, 60],
+        maxZoom: 16
+      });
+      isFirstLoad = false;   // Never auto-fit again
+    }, 150);
+  }
+}
+
+
+// =======================
+// REFRESH FUNCTION (Now preserves user view)
+// =======================
+async function refreshMarkers() {
+  countdownValue = 5;
+  countdownDiv.textContent = "5";
+
+  console.log("🔁 Refreshing markers (keeping current map view)...");
+  const success = await loadParkingData();
+  if (success) {
+    console.log("✅ Markers updated successfully");
+  }
+}
+
+// =======================
+// INITIAL LOAD
+// =======================
+loadParkingData();
+
+// =======================
+// COUNTDOWN TIMER
+// =======================
+setInterval(() => {
+  countdownValue--;
+  if (countdownValue <= 0) {
+    refreshMarkers();
+  } else {
+    countdownDiv.textContent = countdownValue;
+  }
+}, 1000);
+
+// =======================
+// USER LOCATION (unchanged)
+// =======================
+function updateUserLocation(lat, lng) {
+  userPos = { lat, lng };
+  if (userMarker) userMarker.setLatLng([lat, lng]);
+  else {
+    userMarker = L.circleMarker([lat, lng], {
+      radius: 10, fillColor: "#007bff", color: "#ffffff",
+      weight: 3, opacity: 1, fillOpacity: 1
+    }).addTo(map).bindPopup("📍 You are here").openPopup();
+  }
+}
+
+document.getElementById("getLocationBtn").addEventListener("click", () => {
+  if (!navigator.geolocation) return alert("❌ Geolocation not supported");
+  navigator.geolocation.getCurrentPosition(
+    pos => updateUserLocation(pos.coords.latitude, pos.coords.longitude),
+    () => alert("⚠️ Location access denied or failed.")
+  );
+});
+
+if (navigator.geolocation) {
+  navigator.geolocation.watchPosition(
+    pos => updateUserLocation(pos.coords.latitude, pos.coords.longitude),
+    err => console.log("GPS error:", err.message),
+    { enableHighAccuracy: true, maximumAge: 5000 }
+  );
+}
+
+// =======================
+// CLICK & ROUTING (unchanged)
+// =======================
+map.on("click", e => {
+  const lat = e.latlng.lat;
+  const lng = e.latlng.lng;
+
+  lastClicks.push([lat, lng]);
+  if (lastClicks.length > 2) lastClicks.shift();
+
+  if (lastClicks.length === 2) {
+    if (routeLine) map.removeLayer(routeLine);
+    const [start, end] = lastClicks;
+    fetch(`https://router.project-osrm.org/route/v1/walking/${start[1]},${start[0]};${end[1]},${end[0]}?geometries=geojson`)
+      .then(r => r.json())
+      .then(data => {
+        const coords = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+        routeLine = L.polyline(coords, { color:'blue', weight:6 }).addTo(map);
+      })
+      .catch(() => {
+        routeLine = L.polyline([start, end], { color:'green', weight:4 }).addTo(map);
+      });
+  }
+
+  $("#lattitude").val(lat.toFixed(6));
+  $("#longitude").val(lng.toFixed(6));
+});
+
+map.on("mousemove", e => {
+  $("#lattitude").val(e.latlng.lat.toFixed(6));
+  $("#longitude").val(e.latlng.lng.toFixed(6));
+});
+
+// Mobile fix
+setTimeout(() => map.invalidateSize(true), 500);
+setTimeout(() => map.invalidateSize(true), 1500);
+
+</script>  
+
+
+</body>
+</html>
